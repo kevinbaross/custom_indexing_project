@@ -4,6 +4,8 @@
 # pip install streamlit
 # or
 # pip install --upgrade streamlit
+# To run this file, type the following in gitbash
+# streamlit run streamlit_ux.py
 
 #  import the streamlit library
 import streamlit as st # for webapp
