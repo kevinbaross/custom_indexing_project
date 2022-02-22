@@ -12,7 +12,7 @@ import numpy as np # for random gen
 
 # -----------------App function for Page2 - Monte Carlo Analysis-----------------
 
-def app():
+def app(e_options, s_options, g_options):
 
     # -----------------Page2 Title-----------------
 

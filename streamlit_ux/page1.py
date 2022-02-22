@@ -11,11 +11,11 @@ import streamlit as st      # for webapp
 import pandas as pd         # for data manipulation on dataframes
 import numpy as np          # for random geneneration of dataset until actual data available
 import yfinance as yf       # for ticker information from yahoo finance - live data
-# from streamlit_ux import e_options, s_options, g_options #importing ESG filter inputs from user for key metrics section
-
+# from streamlit_ux import * #e_options, s_options, g_options #importing ESG filter inputs from user for key metrics section
+from apply_filters import *
 # -----------------App function for Page1-----------------
 
-def app():
+def app(e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_fn_2):
 
 
 
@@ -35,9 +35,9 @@ def app():
 
     # Variables for temp values 
     ### To Do: Kevin/Haoyu: Please update the values to match the actuals or point it to live data source)
-    e_value = 3.33333           # S&P Environment
-    s_value = 7.33333           # S&P Social
-    g_value = 9.33333           # S&P Governance
+    e_value = 5.47           # S&P Environment
+    s_value = 9.28           # S&P Social
+    g_value = 6.87           # S&P Governance
 
 
     # To display the key metrics of the S&P
@@ -46,9 +46,9 @@ def app():
     snp_g.metric(label = "S&P Governance Score", value = "%.2f"%g_value)
 
     # To display the key metrics of the Custom Index
-    # snp_e.metric(label = "Custom Index Environmental Score", value = "%.2f"%e_options, delta = (e_value-e_options))
-    # snp_s.metric(label = "Custom Index Social Score", value = "%.2f"%s_options, delta = (s_value-s_options))
-    # snp_g.metric(label = "Custome Index Governance Score", value = "%.2f"%g_options, delta = (g_value-g_options))
+    snp_e.metric(label = "Custom Index Environmental Score", value = "%.2f"%e_options, delta = (e_options-e_value))
+    snp_s.metric(label = "Custom Index Social Score", value = "%.2f"%s_options, delta = (s_options-s_value))
+    snp_g.metric(label = "Custome Index Governance Score", value = "%.2f"%g_options, delta = (g_options-g_value))
 
 
 
@@ -57,33 +57,37 @@ def app():
 
     # ------Delete this code once actual data is available-------
     # temp  dataframe  for chart input
-    chart_data = pd.DataFrame(
-    np.random.randn(20,3),
-    columns=['a', 'b', 'c'])
+    ## chart_data = pd.DataFrame(
+    ##np.random.randn(20,3),
+    ##columns=['a', 'b', 'c'])
 
     # Create two columns, one for each chart to be displayed on the page
-    chart1, chart2 = st.columns(2)
+    ##chart1, chart2 = st.columns(2)
 
     # Plot the charts
-    chart1.bar_chart(chart_data)
-    chart2.line_chart(chart_data)
+    ##chart1.bar_chart(chart_data)
+    ##chart2.line_chart(chart_data)
     # ------Delete this code once actual data is available-------
     
 
     # define ticker symbol, to plot S&P timeseries
-    ticker_symbol = 'SPY'
+    ##ticker_symbol = 'SPY'
 
     # get the data for this ticker
-    ticker_data = yf.Ticker(ticker_symbol)
+    ##ticker_data = yf.Ticker(ticker_symbol)
 
     # get the historical prices for this ticker
-    ticker_df = ticker_data.history(period='1d', start='2012-1-1', end='2022-2-17')
+    ##ticker_df = ticker_data.history(period='1d', start='2012-1-1', end='2022-2-17')
     # Columns within the S&P Dataframe: Open High Low Close Volume Dividends Stock Splits
     
     # chart1, chart2 = st.columns(2)
     # chart1.line_chart(ticker_df.Close)
     # chart2.line_chart(ticker_df.Volume)
 
-    st.markdown("### Summary Stats")
+    ##st.markdown("### Summary Stats")
 
-    st.dataframe(ticker_df)
+    ##st.dataframe(ticker_df)
+
+    
+    apply_filters_fn_1(e_options, s_options, g_options)
+    #apply_filters_fn_2(all_sp500_ticker_list, esg_ticker)

@@ -26,7 +26,7 @@ class MultiApp:
     def __init__(self):
         self.apps = []
 
-    def add_app(self, title, func):
+    def add_app(self, title, func, e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_fn_2):
         """Adds a new application.
         Parameters
         ----------
@@ -40,11 +40,11 @@ class MultiApp:
             "function": func
         })
 
-    def run(self):
+    def run(self, e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_fn_2):
         # app = st.sidebar.radio(
         app = st.selectbox(
             'Navigation',
             self.apps,
             format_func=lambda app: app['title'])
 
-        app['function']()
+        app['function'](e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2)
