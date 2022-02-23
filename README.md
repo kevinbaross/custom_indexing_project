@@ -4,6 +4,9 @@
 
 ---
 
+
+
+
 ## Technologies
 
 This project leverages python 3.7 with the following packages:
@@ -30,12 +33,21 @@ This project leverages python 3.7 with the following packages:
 
 ## Installation Guide
 
+### Env. installation
+
 Before running the application first install the following dependencies.
 
 ```python
-  conda activate dev
-  jupyter lab 
-  streamlit
+  conda update conda
+  conda update anaconda
+  conda create -n dev python=3.7 anaconda
+  activate dev
+  
+```
+### Pyviz Installation
+
+```
+
 ```
 ---
 
