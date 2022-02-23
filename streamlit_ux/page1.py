@@ -1,22 +1,25 @@
 # This is code  specific to Page1 - This page should show the Key ESG Metrics
 # for ESG of S&P500 on the top and plot the S&P500 and Custom Index Performance 
-# charts and data summary at bottom of the page. This page is considered as the Minimum Viable Product(MVP)
+# charts and data summary at bottom of the page. 
+#   This page is considered as the Minimum Viable Product(MVP) with slider based filtering
+#   Post MVP, to enable fitering using ESG Factor and Industry filters
 
 
-### To Do: Kevin/Haoyu: Once the Data Filters have been applied, the filtered data should be presented as input for charts below for plotting custom index performance against S&P
+### To Do: Once the Data Filters have been applied, the filtered data should be presented as input for charts below for plotting custom index performance against S&P
 
 
 # -----------------Import all dependent libraries and python modules
 import streamlit as st      # for webapp
 import pandas as pd         # for data manipulation on dataframes
 import numpy as np          # for random geneneration of dataset until actual data available
-import yfinance as yf       # for ticker information from yahoo finance - live data
+import yfinance as yf
+from zmq import EVENT_CLOSE_FAILED       # for ticker information from yahoo finance - live data
 # from streamlit_ux import * #e_options, s_options, g_options #importing ESG filter inputs from user for key metrics section
 from apply_filters import *
 # -----------------App function for Page1-----------------
 
-def app(e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_fn_2):
-
+#def app(e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_fn_2):
+def app(e_options, s_options, g_options, esg_options, apply_filters_fn_1, apply_filters_fn_2):
 
 
     # -----------------Page1 Title-----------------
@@ -41,14 +44,14 @@ def app(e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_f
 
 
     # To display the key metrics of the S&P
-    snp_e.metric(label = "S&P Environmental Score", value = "%.2f"%e_value)
-    snp_s.metric(label = "S&P Social Score", value = "%.2f"%s_value)
-    snp_g.metric(label = "S&P Governance Score", value = "%.2f"%g_value)
+    snp_e.metric(label = "S&P Average Environmental Score", value = "%.2f"%e_value)
+    snp_s.metric(label = "S&P Average Social Score", value = "%.2f"%s_value)
+    snp_g.metric(label = "S&P Average Governance Score", value = "%.2f"%g_value)
 
     # To display the key metrics of the Custom Index
-    snp_e.metric(label = "Custom Index Environmental Score", value = "%.2f"%e_options, delta = (e_options-e_value))
-    snp_s.metric(label = "Custom Index Social Score", value = "%.2f"%s_options, delta = (s_options-s_value))
-    snp_g.metric(label = "Custome Index Governance Score", value = "%.2f"%g_options, delta = (g_options-g_value))
+    snp_e.metric(label = "Custom Index Environmental Min Score", value = "%.2f"%e_options, delta = (e_options-e_value))
+    snp_s.metric(label = "Custom Index Social Min Score", value = "%.2f"%s_options, delta = (s_options-s_value))
+    snp_g.metric(label = "Custom Index Governance Min Score", value = "%.2f"%g_options, delta = (g_options-g_value))
 
 
 
@@ -70,24 +73,21 @@ def app(e_options, s_options, g_options, apply_filters_fn_1): #, apply_filters_f
     # ------Delete this code once actual data is available-------
     
 
-    # define ticker symbol, to plot S&P timeseries
-    ##ticker_symbol = 'SPY'
 
-    # get the data for this ticker
-    ##ticker_data = yf.Ticker(ticker_symbol)
 
-    # get the historical prices for this ticker
-    ##ticker_df = ticker_data.history(period='1d', start='2012-1-1', end='2022-2-17')
-    # Columns within the S&P Dataframe: Open High Low Close Volume Dividends Stock Splits
-    
-    # chart1, chart2 = st.columns(2)
-    # chart1.line_chart(ticker_df.Close)
-    # chart2.line_chart(ticker_df.Volume)
-
-    ##st.markdown("### Summary Stats")
-
-    ##st.dataframe(ticker_df)
+    ########################################################################################
+    #Apply Filteres Code has been broken to two parts in case we want to delay the initial visualization until user inputs filter choices or separately only run visualization multiple times
 
     
-    apply_filters_fn_1(e_options, s_options, g_options)
-    #apply_filters_fn_2(all_sp500_ticker_list, esg_ticker)
+    #for counter 0 to 1:
+    #    counter = counter + 1
+
+    #    if counter = 1:
+    
+    #Apply Filteres Code - Part1
+    all_sp500_ticker_list, esg_ticker = apply_filters_fn_1(e_options, s_options, g_options, esg_options)
+
+    #Apply Filteres Code - Part1
+    apply_filters_fn_2(all_sp500_ticker_list, esg_ticker)
+
+    

@@ -7,17 +7,17 @@
 import streamlit as st # for webapp
 import pandas as pd # for data manipulation
 import numpy as np # for random gen
+import yfinance as yf
 
 
 
 # -----------------App function for Page2 - Monte Carlo Analysis-----------------
-
-def app(e_options, s_options, g_options):
+def app(e_options, s_options, g_options, esg_options, apply_filters_fn_1, apply_filters_fn_2):
 
     # -----------------Page2 Title-----------------
 
     st.title('Page2 - Monte Carlo Analysis')
-
+    #st.title('Page2 - Next Steps (Documentation, Data, Predictive Analysis')
 
 
     # -----------------Key Metrics Section-----------------
@@ -28,21 +28,22 @@ def app(e_options, s_options, g_options):
     new_snp_e, new_snp_s, new_snp_g = st.columns(3)
 
 
-    # Variables for temp values for custom index
-    ### To Do: Kevin/Haoyu: Please update the values to match the actuals or point it to live data source)    
-    new_e_value = 3.33333
-    new_s_value = 7.33333
-    new_g_value = 9.33333
-
-    new_snp_e.metric(label = "S&P Environmental Score", value = "%.2f"%new_e_value) #, delta = -1.4)
-
-    new_snp_s.metric(label = "S&P Environmental Score", value = "%.2f"%new_s_value) #, delta = -1.4)
-
-    new_snp_g.metric(label = "S&P Environmental Score", value = "%.2f"%new_g_value) #, delta = -1.4)
+    # Variables for temp values for S&P index 
+    e_value = 5.47           # S&P Environment
+    s_value = 9.28           # S&P Social
+    g_value = 6.87           # S&P Governance
 
 
-    ### To Do: Kevin/Haoyu: May have to provide the input fields for duration criteria for Monte Corlo Analysis
-    ### To Do: Kevin/Haoyu: May have to import custom_index_tool.ipyb for running the monte corlo simulation 
+    
+    new_snp_e.metric(label = "S&P Environmental Score", value = "%.2f"%e_value, delta = (5.47-24.61))
+
+    new_snp_s.metric(label = "S&P Social Score", value = "%.2f"%s_value, delta = (9.28 - 21.01))
+
+    new_snp_g.metric(label = "S&P Governance Score", value = "%.2f"%g_value, delta = (6.87 - 15.51))
+
+
+    #### To Do: May have to provide the input fields for duration criteria for Monte Corlo Analysis
+    #### To Do: May have to import custom_index_tool.ipyb for running the monte corlo simulation 
 
 
 
@@ -50,15 +51,33 @@ def app(e_options, s_options, g_options):
     st.markdown("### Important Charts")
 
     # temp  dataframe  for chart input
-    chart_data = pd.DataFrame(
-    np.random.randn(20,3),
-    columns=['a', 'b', 'c'])
+    #chart_data = pd.DataFrame(
+    #np.random.randn(20,3),
+    #columns=['a', 'b', 'c'])
 
-    st.bar_chart(chart_data)
-    st.line_chart(chart_data)
+    #st.bar_chart(chart_data)
+    #st.line_chart(chart_data)
 
+
+    #st.markdown("### Summary Stats")
+    #st.dataframe(chart_data)
+
+
+    # define ticker symbol, to plot S&P timeseries
+    ticker_symbol = 'SPY'
+
+    # get the data for this ticker
+    ticker_data = yf.Ticker(ticker_symbol)
+
+    # get the historical prices for this ticker
+    ticker_df = ticker_data.history(period='1d', start='2012-1-1', end='2022-2-17')
+    # Columns within the S&P Dataframe: Open High Low Close Volume Dividends Stock Splits
+    
+    #chart1, chart2 = st.columns(2)
+    st.line_chart(ticker_df.Close)
+    st.line_chart(ticker_df.Volume)
 
     st.markdown("### Summary Stats")
-    st.dataframe(chart_data)
 
+    st.dataframe(ticker_df)
     # ------Delete this code once actual data is available-------

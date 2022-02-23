@@ -36,7 +36,7 @@ import streamlit as st         # import the streamlit library for webapp
 # Function for  applying filters to the data and visualization
 
 
-def apply_filters_fn_1(e_options, s_options, g_options):
+def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     
 
     ############################################################################################################
@@ -145,14 +145,40 @@ def apply_filters_fn_1(e_options, s_options, g_options):
     # ESG Ticker list
     esg_ticker = esg_df['company_ticker']
 
-    #return (all_sp500_ticker_list, esg_ticker)
+    return (all_sp500_ticker_list, esg_ticker)
+
+
+    ################################################################################################################
+    # Code for Industries and ESG Factors based filter queries 
+
+    # ESG Factor Variable from streamlit_ux.py - from ESG Checkboxs in side bar
+    # "esg_options" variable is a list of True/False in the order(order hardcoded for now) shown below:
+    #esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract", "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "Energy Services"]
+
+    ####TO DO:  Create the query variable
+    ####TO DO:  Combine this Query with the previous query(most likely an inner join of two queries or tables) to generate the "esg_ticker" variable above
+    ####TO DO:  Once the esg_ticker is ready, rest of the code will take care of generating the data   
+    #query1 ="""
+    #SELECT company_ticker, adult, alcoholic, animalTesting, catholic, coal, controversialWeapons, furLeather, gambling, gmo, militaryContract, nuclear, palmOil, pesticides, smallArms, tobacco, Energy Services
+    #FROM esg_score_info
+    #WHERE"""
+    #write a loop or write detailed query to consider each item of the filter
+    #+for esg_filter_list_item, 
+    #example: adult = """+str(esg_options[0])+""" AND 
+    #     alcoholic = """+str(esg_options[1])+""" AND
+    #  so on...
+    #"""
+
+
+
+
 
     ################################################################################################################
     #  Execute below  code only after Apply Criteria is clicked
     #if form1.form_submit_button("Apply Criteria"):
 
 
-#def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
+def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
     ################################################################################################################
     # Data Gathering:
     # 2.  yahoo finance data download of all S&P500 tickers - daily close and volume betweek date range

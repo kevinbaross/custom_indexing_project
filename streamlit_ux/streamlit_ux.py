@@ -2,13 +2,8 @@
 # This file has code for the common sections for all pages, the sidebar - filter section for user input
 
 
-### To Do: Kevin/Haoyu: Please look for To Do comments in each file listed below and help complete the steps 
-### To Do: Review the code in streamlit_ux.py, page1.py, page2.py, apply_filters.py
-### To Do: Please clean the comments to ensure all the To Dos are cleared and comments are understandable for everyone.
-
 # Dependency files:
 # streamlit_ux.py, multiapp.py, page1.py, page2.py, apply_filters.py
-
 
 
 # Prerequisites:
@@ -27,8 +22,8 @@
 import streamlit as st         # import the streamlit library for webapp
 from multiapp import MultiApp  # import Multiapp code for accessing multipage functions
 import page1, page2            # import app modules for each page
-from apply_filters import *          # import filters module where output of the filters was applied to generate the data for each page
-#import date
+from apply_filters import *    # import filters module where output of the filters was applied to generate the data for each page
+#import datetime
 
 
 # ------------------Common to all pages------------------
@@ -60,18 +55,27 @@ esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "co
 
 col1_expander = form1.expander("Show Filters")
 with col1_expander:    
-    #col1_expander.header("Original Text")
-    #col1_expander.write(text)
+   
     # Multiselect Filters for Industries
     industry_options = col1_expander.multiselect("Please select the industry of your choice(s)", industry_filter_list)
-    esg_options = col1_expander.multiselect("Please select the ESG factor(s) you dislike", esg_fiter_list)
-    # esg_options = []
-    #counter = 1
-    #for each_esg in esg_fiter_list:
-    #     #counter = counter +1
-    #     like = col1_expander.checkbox(each_esg)
-    #     #esg_options[counter] = like
+    #esg_options = col1_expander.multiselect("Please select the ESG factor(s) you dislike", esg_fiter_list)
     
+    # Checkbox Section
+    col1_expander.write("Please select the ESG factor(s) you dislike")
+    esg_options = []
+    counter = 1
+    for each_esg in esg_fiter_list:
+        counter = counter +1
+        #like = col1_expander.checkbox(each_esg)
+        esg_option_v = col1_expander.checkbox(each_esg)
+        esg_options.append(esg_option_v)
+        # esg_options[counter] = like
+    
+    #for i in range(esg_fiter_list):
+    #    globals()["esg_options_v" + str(i)] = col1_expander.checkbox(esg_fiter_list[i])
+    #    esg_options.append(esg_options_v)
+
+
     #st.write(esg_options)
     #   if like:
     #         esg_options_false = esg_options.append(each_esg)
@@ -95,24 +99,24 @@ form1.title("ESG Criteria")
 
 
 # Slider Selection for ESG Criteria
-e_options = form1.slider("Choose Environmental Score?", 0,25, 24)
-s_options = form1.slider("Choose Social Score?", 0,25, 21)
-g_options = form1.slider("Choose Governance Score?", 0,25, 15)
+e_options = form1.slider("Minimum Environmental Score?", 0,25, 24)
+s_options = form1.slider("Minimum Social Score?", 0,25, 21)
+g_options = form1.slider("Minimum Governance Score?", 0,25, 15)
 
 if form1.form_submit_button("Apply Criteria"):
 
-##### To Decide: ---we may need to modify the below four lines of code to show or not show the output
-##### To Decide: ---of the filter choices, I included this only for understaind what will be the output
-##### To Decide: ---if we do not want to show the text boxes, just directly assign the options to the text variables below to run after button is clicked    
+##pending## To remove: ---we may need to modify the below four lines of code to show or not show the output
+##pending## To remove: ---of the filter choices, I included this only for understaind what will be the output
     industry_text = form1.text_area("You chose the following Industry choice(s)", industry_options)
     esg_text = form1.text_area("You do not like the following ESG Factors", esg_options)
          
     #e_text = form1.text_area("Environmental Risk Factor", e_options)
     #s_text = form1.text_area("Social Risk Factor", s_options)
     #g_text = form1.text_area("Governance Risk Factor", g_options)
-### To Do: Kevin/Haoyu: Use the "industry_options" variable as input 
-### To Do: Kevin/Haoyu: And Use the ESG factor (e_options,s_options, g_options) variables as input to create final filtered dataset
-### To Do: Kevin/Haoyu: Use the  apply_filters.py file to apply the filtering criteria to the data that is being collated by Chris and Hugo
+##pending## To Do: Use the "industry_options" variable as input 
+##pending## To Do: Use the ESG factor "esg_options" variable as input 
+#done# To Do: And Use the ESG Score (e_options,s_options, g_options) variables as input to create final filtered dataset
+#done# To Do: Use the  apply_filters.py file to apply the filtering criteria to the data that is being collated
 
 
 
@@ -120,9 +124,13 @@ if form1.form_submit_button("Apply Criteria"):
 app = MultiApp()
 
 # Add all the sub-pages here, provide the Page Title/name and the python page specific function.
-app.add_app("Page1 - Custom Index", page1.app, e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2 )
-app.add_app("Page2 - Monte Carlo Analysis", page2.app, e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2 )
+#app.add_app("Page1 - Custom Index", page1.app, e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2 )
+#app.add_app("Page2 - Monte Carlo Analysis", page2.app, e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2 )
+app.add_app("Page1 - Custom Index", page1.app, e_options, s_options, g_options, esg_options, apply_filters_fn_1, apply_filters_fn_2)
+app.add_app("Page2 - Monte Carlo Analysis", page2.app, e_options, s_options, g_options, esg_options, apply_filters_fn_1, apply_filters_fn_2)
+
 
 # The main app for multipage
-app.run(e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2)
+#app.run(e_options, s_options, g_options, apply_filters_fn_1) #, apply_filters_fn_2)
+app.run(e_options, s_options, g_options, esg_options, apply_filters_fn_1, apply_filters_fn_2)
 
