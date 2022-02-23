@@ -5,6 +5,7 @@
 ---
 
 
+![alt text](Image/plot_1.png)
 
 
 ## Technologies
