@@ -58,17 +58,6 @@ Before running the application first install the following dependencies.
 ```
 ---
 
-## Usage
-
-To use the loan qualifier application simply clone the repository and run the following:
-
-```python
-  cd Github
-  custom_index_tool.ipynb
-```
-
----
-
 ## Contributors
 
 Brought to you by Kevin BaRoss, Christopher Diamond, Haoyu Chen, Hugo Kostelni, Siddharth Venkumahanti
