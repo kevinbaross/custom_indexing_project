@@ -11,7 +11,11 @@
 
 ![alt text](Image/plot_3.png)
 
-## Conclusions 
+## Results and Conclusions 
+
+1. Removing companies based on ethical considerations from the S&P 500 may reduce the performance of the custom index compared to the benchmark. 
+2. We believe that investors would be comfortable with making a lower return from their investments in exchange for supporting only companies that align with their values in order to create a positive impact in the world. 
+3. Our tool can empower investors to make an informed judgement on how to balance investment performance and ethical considerations to create an investment portfolio that they can be proud of. 
 
 
 ## Technologies
