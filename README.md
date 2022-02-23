@@ -7,6 +7,11 @@
 
 ![alt text](Image/plot_1.png)
 
+![alt text](Image/plot_2.png)
+
+![alt text](Image/plot_3.png)
+
+
 
 ## Technologies
 
