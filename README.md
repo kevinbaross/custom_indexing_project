@@ -13,7 +13,8 @@
 
 ## Data Sources
 
-```Yahoo Finance Pricing Data API
+```
+Yahoo Finance Pricing Data API
 Yahoo Finance ESG Data API
 Open Data S&P 500 Security List
 ```
@@ -55,7 +56,8 @@ This project leverages python 3.7 with the following packages:
 
 Before running the application first install the following dependencies.
 
-```python
+```
+  python
   conda update conda
   conda update anaconda
   conda create -n dev python=3.7 anaconda
@@ -64,8 +66,9 @@ Before running the application first install the following dependencies.
 ```
 ### Pyviz Installation
 
-```conda install -c pyviz pyviz
- conda list hvplot
+```
+conda install -c pyviz pyviz
+conda list hvplot
 ```
 ---
 ## Team Collaboration
