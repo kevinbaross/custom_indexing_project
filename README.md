@@ -70,6 +70,12 @@ Before running the application first install the following dependencies.
 conda install -c pyviz pyviz
 conda list hvplot
 ```
+### Streamlit Installation
+```
+ conda activate dev
+ pip install streamlit 
+ type the following in gitbash to run the app in your browser < streamlit run streamlit_ux.py >
+ ```
 ---
 ## Team Collaboration
 
