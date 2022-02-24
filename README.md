@@ -11,6 +11,13 @@
 
 ![alt text](Image/plot_3.png)
 
+## Data Sources
+
+```Yahoo Finance Pricing Data API
+Yahoo Finance ESG Data API
+Open Data S&P 500 Security List
+```
+
 ## Results and Conclusions 
 
 1. Removing companies based on ethical considerations from the S&P 500 may reduce the performance of the custom index compared to the benchmark. 
@@ -61,6 +68,9 @@ Before running the application first install the following dependencies.
  conda list hvplot
 ```
 ---
+## Team Collaboration
+
+Team members collaborated through Github respository, Slack and Zoom sessions. 
 
 ## Contributors
 
