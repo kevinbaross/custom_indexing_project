@@ -11,7 +11,19 @@
 
 ![alt text](Image/plot_3.png)
 
-## Conclusions 
+## Data Sources
+
+```
+Yahoo Finance Pricing Data API
+Yahoo Finance ESG Data API
+Open Data S&P 500 Security List
+```
+
+## Results and Conclusions 
+
+1. Removing companies based on ethical considerations from the S&P 500 may reduce the performance of the custom index compared to the benchmark. 
+2. We believe that investors would be comfortable with making a lower return from their investments in exchange for supporting only companies that align with their values in order to create a positive impact in the world. 
+3. Our tool can empower investors to make an informed judgement on how to balance investment performance and ethical considerations to create an investment portfolio that they can be proud of. 
 
 
 ## Technologies
@@ -44,7 +56,8 @@ This project leverages python 3.7 with the following packages:
 
 Before running the application first install the following dependencies.
 
-```python
+```
+  python
   conda update conda
   conda update anaconda
   conda create -n dev python=3.7 anaconda
@@ -53,10 +66,20 @@ Before running the application first install the following dependencies.
 ```
 ### Pyviz Installation
 
-```conda install -c pyviz pyviz
- conda list hvplot
 ```
+conda install -c pyviz pyviz
+conda list hvplot
+```
+### Streamlit Installation
+```
+ conda activate dev
+ pip install streamlit 
+ type the following in gitbash to run the app in your browser < streamlit run streamlit_ux.py >
+ ```
 ---
+## Team Collaboration
+
+Team members collaborated through Github respository, Slack and Zoom sessions. 
 
 ## Contributors
 
