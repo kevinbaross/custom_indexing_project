@@ -1,8 +1,5 @@
 # This file is for applying the filters as per the user input(from streamlit_ux.py) to the datasources(from jupyternotebook)
 
-### To Do: Kevin/Haoyu: Use the 'apply_filters.py'(this) file to apply the filtering criteria to the data
-###                     that is being collated/cleaned by Chris and Hugo
-
 
 
 # -----------------Data Gathering and Cleanup -----------------
@@ -10,13 +7,13 @@
 
 
 # -----------------Apply Filter Criteria-----------------
-### To Do: Kevin/Haoyu: Use the filter variables from streamlit_ux.py and apply the filters to the data sources
-### To Do: Kevin/Haoyu:     1. Use the "industry_options" variable as input 
-### To Do: Kevin/Haoyu:     2. Use the ESG factor (e_options,s_options, g_options) variables as input to create final filter criteria
+###  Use the filter variables from streamlit_ux.py and apply the filters to the data sources
+###     1. Use the "industry_options" variable as input 
+###     2. Use the ESG factor (e_options,s_options, g_options) variables as input to create final filter criteria
 ### Hint: You can play with the multi-filters and sliders, click the 'Apply Criteria' button to see the output based on user input  
 
 # Next:
-### To Do: Kevin/Haoyu: Present the filtered dataframes/series to the Charts in page1 and page2
+### Present the filtered dataframes/series to the Charts in page1 and page2
 
 
 import pandas as pd
@@ -66,7 +63,7 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     #esg_df_1 = esg_df[['company_ticker', 'environmentScore', 'socialScore', 'governanceScore']]
 
     # Create New Table(esg_score_info) in the database 
-    esg_df[['company_ticker', 'environmentScore', 'socialScore', 'governanceScore']].to_sql(
+    esg_df.to_sql(
         'esg_score_info', #New table name
         engine, 
         index=False, 
@@ -133,10 +130,34 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     g_score = g_options
 
     # Create and execute a query to return esg data for tickers that match the chosen criteria.
+    # query1 ="""
+    # SELECT company_ticker, environmentScore, socialScore, governanceScore
+    # FROM esg_score_info
+    # WHERE environmentScore >= """+str(e_score)+""" AND socialScore >= """+str(s_score)+""" AND governanceScore >= """+str(g_score)+""";
+    # """
+
+
     query1 ="""
-    SELECT company_ticker, environmentScore, socialScore, governanceScore
+    SELECT *
     FROM esg_score_info
-    WHERE environmentScore >= """+str(e_score)+""" AND socialScore >= """+str(s_score)+""" AND governanceScore >= """+str(g_score)+""";
+    WHERE environmentScore >= """+str(e_score)+""" 
+    AND socialScore >= """+str(s_score)+""" 
+    AND governanceScore >= """+str(g_score)+""" 
+    AND adult NOT LIKE  """+str(esg_options[0])+""" 
+    AND alcoholic NOT LIKE  """+str(esg_options[1])+""" 
+    AND animalTesting NOT LIKE  """+str(esg_options[2])+""" 
+    AND catholic NOT LIKE  """+str(esg_options[3])+""" 
+    AND coal NOT LIKE  """+str(esg_options[4])+""" 
+    AND controversialWeapons NOT LIKE  """+str(esg_options[5])+""" 
+    AND furLeather NOT LIKE  """+str(esg_options[6])+""" 
+    AND gambling NOT LIKE  """+str(esg_options[7])+""" 
+    AND gmo NOT LIKE  """+str(esg_options[8])+""" 
+    AND militaryContract NOT LIKE  """+str(esg_options[9])+""" 
+    AND nuclear NOT LIKE  """+str(esg_options[10])+""" 
+    AND palmOil NOT LIKE  """+str(esg_options[11])+""" 
+    AND pesticides NOT LIKE  """+str(esg_options[12])+""" 
+    AND smallArms NOT LIKE  """+str(esg_options[13])+""" 
+    AND tobacco NOT LIKE  """+str(esg_options[14])+""";
     """
 
     # read in your SQL query results using pandas with Tickers that march ESG filters
@@ -149,25 +170,8 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
 
 
     ################################################################################################################
-    # Code for Industries and ESG Factors based filter queries 
 
-    # ESG Factor Variable from streamlit_ux.py - from ESG Checkboxs in side bar
-    # "esg_options" variable is a list of True/False in the order(order hardcoded for now) shown below:
-    #esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract", "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "Energy Services"]
-
-    ####TO DO:  Create the query variable
-    ####TO DO:  Combine this Query with the previous query(most likely an inner join of two queries or tables) to generate the "esg_ticker" variable above
-    ####TO DO:  Once the esg_ticker is ready, rest of the code will take care of generating the data   
-    #query1 ="""
-    #SELECT company_ticker, adult, alcoholic, animalTesting, catholic, coal, controversialWeapons, furLeather, gambling, gmo, militaryContract, nuclear, palmOil, pesticides, smallArms, tobacco, Energy Services
-    #FROM esg_score_info
-    #WHERE"""
-    #write a loop or write detailed query to consider each item of the filter
-    #+for esg_filter_list_item, 
-    #example: adult = """+str(esg_options[0])+""" AND 
-    #     alcoholic = """+str(esg_options[1])+""" AND
-    #  so on...
-    #"""
+        
 
 
 
