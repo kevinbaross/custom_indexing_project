@@ -20,6 +20,8 @@ Open Data S&P 500 Security List
 ```
 ---
 ## Usage of the App
+---
+
 ![Alternative Text](/images/screenshot_1.png)
 
 1. As a user, start on the left side and choose the minimum ESG scores compared to the benchmark
