@@ -21,7 +21,7 @@ Open Data S&P 500 Security List
 ---
 ## Usage of the App
 
-![alt text](Image/plot_5.png)
+![alt text](Image/plot_1.png)
 
 1. As a user, start on the left side and choose the minimum ESG scores compared to the benchmark
 2. The tool will load and fetch data from API for all 500 companies.
