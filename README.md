@@ -18,6 +18,15 @@ Yahoo Finance Pricing Data API
 Yahoo Finance ESG Data API
 Open Data S&P 500 Security List
 ```
+---
+## Usage of the App
+
+![alt text](Image/plot_4.png)
+1. As a user, start on the left side and choose the minimum ESG scores compared to the benchmark
+2. The tool will load and fetch data from API for all 500 companies.
+3. After it loads, the user will see two graphs and a score comparison against the benchmark
+4. The tool is modular and ready to build additional functionality
+---
 
 ## Results and Conclusions 
 
@@ -25,7 +34,7 @@ Open Data S&P 500 Security List
 2. We believe that investors would be comfortable with making a lower return from their investments in exchange for supporting only companies that align with their values in order to create a positive impact in the world. 
 3. Our tool can empower investors to make an informed judgement on how to balance investment performance and ethical considerations to create an investment portfolio that they can be proud of. 
 
-
+---
 ## Technologies
 
 This project leverages python 3.7 with the following packages:
@@ -61,8 +70,7 @@ Before running the application first install the following dependencies.
   conda update conda
   conda update anaconda
   conda create -n dev python=3.7 anaconda
-  activate dev
-  
+  conda activate dev 
 ```
 ### Pyviz Installation
 
@@ -76,7 +84,19 @@ conda list hvplot
  pip install streamlit 
  type the following in gitbash to run the app in your browser < streamlit run streamlit_ux.py >
  ```
+
+### Yahoo Finance API Installation
+```
+pip install yfinance
+pip install yahoo_fin
+```
+### SQLAlchemy Installation
+```
+pip install SQLAlchemy
+conda list sqlalchemy
+```
 ---
+
 ## Team Collaboration
 
 Team members collaborated through Github respository, Slack and Zoom sessions. 
