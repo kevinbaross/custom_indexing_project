@@ -23,15 +23,15 @@ Open Data S&P 500 Security List
 
 ![Alternative Text](/Images/screenshot_1.png)
 
-Custom Index Tool Link:
+## Custom Index Tool Link: 
+As a user, once you open the App using the above link, start on the left side, to generate the custom index
 
-	As a user, once you open the App using the above link, start on the left side, to generate the custom index
-	1. Choose the minimum ESG scores compared to the benchmark
-	2. Expand Filters with 'Show Filters' and choose the ESG Factors that you dislike (to fiter out)
-	3. Click the 'Apply Criteria' Button
-	4. The tool will load and fetch data from API for all 500 companies.
-	5. After it loads, the user will see two graphs and a score comparison against the benchmark
-	The tool is modular and ready to build additional functionality in the future.
+1. Choose the minimum ESG scores compared to the benchmark
+2. Expand Filters with 'Show Filters' and choose the ESG Factors that you dislike (to fiter out)
+3. Click the 'Apply Criteria' Button
+4. The tool will load and fetch data from API for all 500 companies.
+5. After it loads, the user will see two graphs and a score comparison against the benchmark
+The tool is modular and ready to build additional functionality in the future.
 ---
 
 ## Results and Conclusions 
