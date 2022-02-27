@@ -114,7 +114,7 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     # Fetch the data for ALL S&P 500 as an index for comparison
     # Create and execute a query to return the list of tickers for S&P 500
     query_all_sp500 = """
-    SELECT company_ticker
+    SELECT *
     FROM esg_score_info
     """
 
@@ -135,36 +135,39 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     # FROM esg_score_info
     # WHERE environmentScore >= """+str(e_score)+""" AND socialScore >= """+str(s_score)+""" AND governanceScore >= """+str(g_score)+""";
     # """
+    print(esg_options[0])
+    indexes = []
+    ticker_list = []
+    company_ticker_list = ["adult","alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract",
+    "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "company_ticker"]
 
+    filtered_df = all_sp500_df[company_ticker_list]
 
+    for i in range(len(esg_options)):
+        if esg_options[i] == True:
+            indexes.append(i)  
+
+    for item in indexes:
+        for row in filtered_df.iterrows():
+            ind = item
+            if row[1][ind] == True:
+                ticker_list.append(row[1][15])
+
+    
     query1 ="""
     SELECT *
     FROM esg_score_info
     WHERE environmentScore >= """+str(e_score)+""" 
     AND socialScore >= """+str(s_score)+""" 
     AND governanceScore >= """+str(g_score)+""" 
-    AND adult NOT LIKE  """+str(esg_options[0])+""" 
-    AND alcoholic NOT LIKE  """+str(esg_options[1])+""" 
-    AND animalTesting NOT LIKE  """+str(esg_options[2])+""" 
-    AND catholic NOT LIKE  """+str(esg_options[3])+""" 
-    AND coal NOT LIKE  """+str(esg_options[4])+""" 
-    AND controversialWeapons NOT LIKE  """+str(esg_options[5])+""" 
-    AND furLeather NOT LIKE  """+str(esg_options[6])+""" 
-    AND gambling NOT LIKE  """+str(esg_options[7])+""" 
-    AND gmo NOT LIKE  """+str(esg_options[8])+""" 
-    AND militaryContract NOT LIKE  """+str(esg_options[9])+""" 
-    AND nuclear NOT LIKE  """+str(esg_options[10])+""" 
-    AND palmOil NOT LIKE  """+str(esg_options[11])+""" 
-    AND pesticides NOT LIKE  """+str(esg_options[12])+""" 
-    AND smallArms NOT LIKE  """+str(esg_options[13])+""" 
-    AND tobacco NOT LIKE  """+str(esg_options[14])+""";
     """
-
     # read in your SQL query results using pandas with Tickers that march ESG filters
     esg_df = pd.read_sql(query1, con=engine)
-
+    esg_tickers = esg_df["company_ticker"]
     # ESG Ticker list
-    esg_ticker = esg_df['company_ticker']
+    ticker_list = np.array(ticker_list)
+    ticker_array = np.setdiff1d(all_sp500_df["company_ticker"], ticker_list)
+    esg_ticker = np.intersect1d(esg_tickers, ticker_array)
 
     return (all_sp500_ticker_list, esg_ticker)
 
