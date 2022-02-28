@@ -1,15 +1,13 @@
 # Custom Indexing Project
 
-####  Custom indexing represents a category shift in investing. It provides infinite customization around what investors care about: taxes, ESG, income, and other factors. It is a direct challenge to ETF and indexing funds.  This project intends to build a custom indexing engine that would allow an average investor to build their own index fund based on their values and also compare performance of the custom index to original benchmark index using Monte Carlo simulation.  It provides investors the ability to customize their funds based on their budget and thematic preferences.  New Index constituents are calculated by weights and fractional share allocation.
+####  Custom indexing represents a category shift in investing. It provides infinite customization around what investors care about: taxes, ESG, income, and other factors. It is a direct challenge to ETF and indexing funds.  This project intends to build a custom indexing engine that would allow an average investor to build their own index fund based on their values and also compare performance of the custom index to original benchmark index.  New Index constituents are calculated by weights and fractional share allocation.
 
----
+Below are examples of outputs that users will get after they choose the criteria to be included in their custom index.
 
 
 ![alt text](Image/plot_1.png)
 
 ![alt text](Image/plot_2.png)
-
-![alt text](Image/plot_3.png)
 
 ## Data Sources
 

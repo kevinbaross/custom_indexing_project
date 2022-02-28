@@ -1,8 +1,5 @@
 # This file is for applying the filters as per the user input(from streamlit_ux.py) to the datasources(from jupyternotebook)
 
-### To Do: Kevin/Haoyu: Use the 'apply_filters.py'(this) file to apply the filtering criteria to the data
-###                     that is being collated/cleaned by Chris and Hugo
-
 
 
 # -----------------Data Gathering and Cleanup -----------------
@@ -10,13 +7,13 @@
 
 
 # -----------------Apply Filter Criteria-----------------
-### To Do: Kevin/Haoyu: Use the filter variables from streamlit_ux.py and apply the filters to the data sources
-### To Do: Kevin/Haoyu:     1. Use the "industry_options" variable as input 
-### To Do: Kevin/Haoyu:     2. Use the ESG factor (e_options,s_options, g_options) variables as input to create final filter criteria
+###  Use the filter variables from streamlit_ux.py and apply the filters to the data sources
+###     1. Use the "industry_options" variable as input 
+###     2. Use the ESG factor (e_options,s_options, g_options) variables as input to create final filter criteria
 ### Hint: You can play with the multi-filters and sliders, click the 'Apply Criteria' button to see the output based on user input  
 
 # Next:
-### To Do: Kevin/Haoyu: Present the filtered dataframes/series to the Charts in page1 and page2
+### Present the filtered dataframes/series to the Charts in page1 and page2
 
 
 import pandas as pd
@@ -62,11 +59,8 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     # Pass the connection string to the SQLAlchemy create_engine function
     engine = sqlalchemy.create_engine(database_connection_string)
 
-    # Removing unnecessary columns from the Dataframe
-    #esg_df_1 = esg_df[['company_ticker', 'environmentScore', 'socialScore', 'governanceScore']]
-
     # Create New Table(esg_score_info) in the database 
-    esg_df[['company_ticker', 'environmentScore', 'socialScore', 'governanceScore']].to_sql(
+    esg_df.to_sql(
         'esg_score_info', #New table name
         engine, 
         index=False, 
@@ -117,7 +111,7 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     # Fetch the data for ALL S&P 500 as an index for comparison
     # Create and execute a query to return the list of tickers for S&P 500
     query_all_sp500 = """
-    SELECT company_ticker
+    SELECT *
     FROM esg_score_info
     """
 
@@ -132,45 +126,42 @@ def apply_filters_fn_1(e_options, s_options, g_options, esg_options):
     s_score = s_options 
     g_score = g_options
 
+    # Create filtering system for checkbox options
+    print(esg_options[0])
+    indexes = []
+    ticker_list = []
+    company_ticker_list = ["adult","alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract",
+    "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "company_ticker"]
+
+    filtered_df = all_sp500_df[company_ticker_list]
+
+    for i in range(len(esg_options)):
+        if esg_options[i] == True:
+            indexes.append(i)  
+
+    for item in indexes:
+        for row in filtered_df.iterrows():
+            ind = item
+            if row[1][ind] == True:
+                ticker_list.append(row[1][15])
+
     # Create and execute a query to return esg data for tickers that match the chosen criteria.
     query1 ="""
-    SELECT company_ticker, environmentScore, socialScore, governanceScore
+    SELECT *
     FROM esg_score_info
-    WHERE environmentScore >= """+str(e_score)+""" AND socialScore >= """+str(s_score)+""" AND governanceScore >= """+str(g_score)+""";
+    WHERE environmentScore >= """+str(e_score)+""" 
+    AND socialScore >= """+str(s_score)+""" 
+    AND governanceScore >= """+str(g_score)+""" 
     """
-
     # read in your SQL query results using pandas with Tickers that march ESG filters
     esg_df = pd.read_sql(query1, con=engine)
-
+    esg_tickers = esg_df["company_ticker"]
     # ESG Ticker list
-    esg_ticker = esg_df['company_ticker']
+    ticker_list = np.array(ticker_list)
+    ticker_array = np.setdiff1d(all_sp500_df["company_ticker"], ticker_list)
+    esg_ticker = np.intersect1d(esg_tickers, ticker_array)
 
     return (all_sp500_ticker_list, esg_ticker)
-
-
-    ################################################################################################################
-    # Code for Industries and ESG Factors based filter queries 
-
-    # ESG Factor Variable from streamlit_ux.py - from ESG Checkboxs in side bar
-    # "esg_options" variable is a list of True/False in the order(order hardcoded for now) shown below:
-    #esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract", "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "Energy Services"]
-
-    ####TO DO:  Create the query variable
-    ####TO DO:  Combine this Query with the previous query(most likely an inner join of two queries or tables) to generate the "esg_ticker" variable above
-    ####TO DO:  Once the esg_ticker is ready, rest of the code will take care of generating the data   
-    #query1 ="""
-    #SELECT company_ticker, adult, alcoholic, animalTesting, catholic, coal, controversialWeapons, furLeather, gambling, gmo, militaryContract, nuclear, palmOil, pesticides, smallArms, tobacco, Energy Services
-    #FROM esg_score_info
-    #WHERE"""
-    #write a loop or write detailed query to consider each item of the filter
-    #+for esg_filter_list_item, 
-    #example: adult = """+str(esg_options[0])+""" AND 
-    #     alcoholic = """+str(esg_options[1])+""" AND
-    #  so on...
-    #"""
-
-
-
 
 
     ################################################################################################################
@@ -197,7 +188,6 @@ def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
     custom_sp500_hist_data_df =  all_sp500_hist_data_df.droplevel(0,axis=1)
     custom_sp500_hist_data_df = custom_sp500_hist_data_df[list(esg_ticker)]
 
-
     ################################################################################################################
     # Add Mean of all tickers for the S&P500 and Custom Index Dataframes for each date in the range
 
@@ -206,13 +196,10 @@ def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
     # Now create Dataframe dropping all columns except adj close daily average column
     sp500_index_adj_close_daily_average_df = all_sp500_hist_data_df['sp500_index_adj_close_daily_average']
 
-
     #Create the "Custom_Index" column to calculate the average price of all the filtered stock
     custom_sp500_hist_data_df['custom_indexsp_adj_close_daily_average'] = custom_sp500_hist_data_df.mean(axis=1)
     # Now create Dataframe dropping all columns except adj close daily average column
     custom_indexsp_adj_close_daily_average_df = custom_sp500_hist_data_df['custom_indexsp_adj_close_daily_average']
-
-
 
     ################################################################################################################
     # Calculate Daily Returns
@@ -225,24 +212,18 @@ def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
     #### Combine the two dataframes for plotting purpose 
     daily_returns_df = pd.concat([sp500_index_adj_close_percent_change_df,custom_indexsp_adj_close_percent_change_df], axis=1)
 
-
-
     ################################################################################################################
     #### Calculate Cumulative Returns for plotting purpose
     cumulative_returns_df = (1 + daily_returns_df).cumprod()
 
-
-
     ################################################################################################################
     #### Plot the charts
-
 
     # Title for Charts Section
     st.markdown("### The Daily Returns of Custom ESG based Index vs S&P500 Index Chart")
     
     # Plot the daily returns for S&P500 Index and Custom Index
     st.line_chart(daily_returns_df)
-
 
     # Title for Charts Section
     st.markdown("### The Cumulative Returns of Custom ESG based Index vs S&P500 Index Chart")
@@ -251,20 +232,4 @@ def apply_filters_fn_2(all_sp500_ticker_list, esg_ticker):
     st.line_chart(cumulative_returns_df)
     st.write("Based on your selection, below is the list of Tickers you may consider trading as part of the customer index")
     st.dataframe(esg_ticker)
-    # chart_1.sp500_hist_data_closing_only.plot(
-    #      title="The Price Index of Stock Filtered", 
-    #      xlabel="Date", 
-    #      ylabel="Price Index", 
-    #      figsize=(10,7),
-    #      legend="top",
-    #      label="Filtered Result",
-    #      linewidth=3
-    # )
-
-    #Plot the "ALL" S&P500 index data frame
-    # chart_2.all_sp500_hist_data_closing_only.plot(
-    #      legend="top",
-    #      label="All S&P500 Benchmark",
-    #      linewidth=3
-    # )
 

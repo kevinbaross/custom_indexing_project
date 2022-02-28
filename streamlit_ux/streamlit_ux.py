@@ -51,7 +51,7 @@ form1.title("Filters")
 #  Variable for  Industry List
 industry_filter_list = ["Aerospace & Defense", "Auto Components", "Automobiles", "Banks", "Building Products", "Chemicals", "Commercial Services", "Construction & Engineering", "Construction Materials", "Consumer Durables", "Consumer Services", "Containers & Packaging", "Diversified Financials", "Diversified Metals", "Electrical Equipment", "Energy Services", "Food Products", "Food Retailers", "Healthcare", "Homebuilders", "Household Products", "Industrial Conglomerates", "Insurance", "Machinery", "Media", "Oil & Gas Producers", "Paper & Forestry", "Pharmaceuticals", "Precious Metals", "Real Estate", "Refiners & Pipelines", "Retailing", "Semiconductors", "Software & Services", "Steel", "Technology Hardware", "Telecommunication Services", "Textiles & Apparel", "Traders & Distributors", "Transportation", "Utilities"]
 
-esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract", "nuclear", "palmOil", "pesticides", "smallArms", "tobacco", "Energy Services"]
+esg_fiter_list = ["adult", "alcoholic", "animalTesting", "catholic", "coal", "controversialWeapons", "furLeather", "gambling", "gmo", "militaryContract", "nuclear", "palmOil", "pesticides", "smallArms", "tobacco"]
 
 col1_expander = form1.expander("Show Filters")
 with col1_expander:    
@@ -105,15 +105,15 @@ g_options = form1.slider("Minimum Governance Score?", 0,25, 15)
 
 if form1.form_submit_button("Apply Criteria"):
 
-##pending## To remove: ---we may need to modify the below four lines of code to show or not show the output
-##pending## To remove: ---of the filter choices, I included this only for understaind what will be the output
-    industry_text = form1.text_area("You chose the following Industry choice(s)", industry_options)
+##done## To remove: ---we may need to modify the below four lines of code to show or not show the output
+##done## To remove: ---of the filter choices, I included this only for understaind what will be the output
+    #industry_text = form1.text_area("You chose the following Industry choice(s)", industry_options)
     esg_text = form1.text_area("You do not like the following ESG Factors", esg_options)
          
     #e_text = form1.text_area("Environmental Risk Factor", e_options)
     #s_text = form1.text_area("Social Risk Factor", s_options)
     #g_text = form1.text_area("Governance Risk Factor", g_options)
-##pending## To Do: Use the "industry_options" variable as input 
+##excluded from scope## To Do: Use the "industry_options" variable as input 
 ##pending## To Do: Use the ESG factor "esg_options" variable as input 
 #done# To Do: And Use the ESG Score (e_options,s_options, g_options) variables as input to create final filtered dataset
 #done# To Do: Use the  apply_filters.py file to apply the filtering criteria to the data that is being collated
